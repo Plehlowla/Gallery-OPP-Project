@@ -10,6 +10,7 @@ function getElement(selection) {
 
 function Gallery(element){
   // console.log(element);
+  this.container = element
   this.list = [...element.querySelectorAll('.img')];
   // console.log(this.list);
   // target
@@ -19,6 +20,22 @@ function Gallery(element){
   this.closeBtn = getElement('.close-btn');
   this.nextBtn = getElement('.next-btn');
   this.prevBtn = getElement('.prev-btn');
+  let self = this;
+  // bind function
+
+  // this.openModal = this.openModal.bind(this);
+  // container event
+  this.container.addEventListener('click',function(e){
+    console.log(this);
+    // self.openModal();
+    this.openModal();
+  }.bind(this));
+}
+
+Gallery.prototype.openModal = function(){
+  // console.log(this);
+  console.log('open modal');
+  this.modal.classList.add('open');
 }
 
 const nature = new Gallery(getElement('.nature'));
