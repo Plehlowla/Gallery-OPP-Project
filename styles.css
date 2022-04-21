@@ -188,7 +188,7 @@ Modal
   transition: var(--transition);
   opacity: 0;
   min-height: 100vh;
-  overflow: scroll;
+  overflow: hidden;
 }
 .modal.open {
   opacity: 1;
