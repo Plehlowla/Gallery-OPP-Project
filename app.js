@@ -28,6 +28,8 @@ function Gallery(element){
   this.closeModal = this.closeModal.bind(this);
   this.nextImage = this.nextImage.bind(this);
   this.prevImage = this.prevImage.bind(this);
+  this.chooseImage = this.chooseImage.bind(this);
+  
   // container event
   this.container.addEventListener('click',function(e){
     // console.log(this);
@@ -44,12 +46,13 @@ Gallery.prototype.openModal = function(selectedImage,list){
   // console.log(selectedImage,list);
   this.setMainImage(selectedImage);
   this.modalImages.innerHTML = list.map(function(image){
-    return `<img src="${image.src}" title="${image.title} data-id="${image.dataset.id}" class="${selectedImage.dataset.id === image.dataset.id ? "modal-img selected" : "modal-img"}"/>`
+    return `<img src="${image.src}" title="${image.title}" data-id="${image.dataset.id}" class="${selectedImage.dataset.id === image.dataset.id ? "modal-img selected" : "modal-img"}"/>`
   }).join('')
   this.modal.classList.add('open');
   this.closeBtn.addEventListener('click', this.closeModal);
   this.nextBtn.addEventListener('click', this.nextImage);
   this.prevBtn.addEventListener('click', this.prevImage);
+  this.modalImages.addEventListener('click', this.chooseImage);
 };
 
 Gallery.prototype.setMainImage = function(selectedImage){
@@ -62,6 +65,7 @@ Gallery.prototype.closeModal = function(){
   this.closeBtn.removeEventListener('click', this.closeModal);
   this.nextBtn.removeEventListener('click', this.nextImage);
   this.prevBtn.removeEventListener('click', this.prevImage);
+  this.modalImages.removeEventListener('click', this.chooseImage);
 };
 Gallery.prototype.nextImage = function(){
   const selected = this.modalImages.querySelector('.selected');
@@ -77,6 +81,14 @@ Gallery.prototype.prevImage = function(){
   prev.classList.add('selected');
   this.setMainImage(prev);
 };
+Gallery.prototype.chooseImage = function(e){
+  if(e.target.classList.contains('modal-img')){
+    const selected = this.modalImages.querySelector('.selected');
+    selected.classList.remove('selected');
+    e.target.classList.add('selected');
+    this.setMainImage(e.target);
+  }
+}
 
 const nature = new Gallery(getElement('.nature'));
 const city = new Gallery(getElement('.city'));
